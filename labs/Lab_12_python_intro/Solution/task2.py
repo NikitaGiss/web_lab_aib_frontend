@@ -1,20 +1,15 @@
-from typing import List
-
-def search_median(x: List[int], count):
+with open('input.txt', 'r') as file:
+    n = int(file.readline())
+    sequence = list(map(int, file.readline().split()))
     medians = []
-    for i in range(count):
-        x[:i+1] = sorted(x[:i+1])
-        if (i + 1) % 2 != 0:
-            median = x[(i + 1) // 2]
+
+    for i in range(n):
+        sequence[:i+1] = sorted(sequence[:i+1])
+        if (i + 1) % 2 == 1:
+            median = sequence[(i + 1) // 2]
         else:
-            median = x[i // 2] 
+            median = sequence[i // 2]
         medians.append(median)
 
     total_sum = sum(medians)
-    return total_sum
-
-if __name__ == '__main__':
-    count = int(input())
-    digit = list(map(int, input().split()))[:count]
-    result = search_median(digit, count)
-    print(result)
+    print(total_sum)
