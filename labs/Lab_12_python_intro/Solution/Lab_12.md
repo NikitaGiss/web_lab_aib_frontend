@@ -22,23 +22,24 @@
 
 **Код программы**
 ```python
-import math
 
-def count_ways(n, m):
-    num_ways = [[0]*m for _ in range(n)]
-    knight_moves = [(2, 1), (1, 2)]
-    num_ways[0][0] = 1
-    for i in range(n):
-        for j in range(m):
-            for dx, dy in knight_moves:
-                x, y = i - dx, j - dy
-                if 0 <= x < n and 0 <= y < m:
-                    num_ways[i][j] += num_ways[x][y]
-    return num_ways[-1][-1]
+with open('input.txt', 'r') as file:
+    N, M = map(int, file.readline().split())
+    if not (1 <= N <= 50 and 1 <= M <= 50):
+        print("Нужны числа от 1 до 50!! измените числа в входном файле и перезапустите код")
 
-if __name__ == '__main__':
-    n, m = map(int, input().split())
-    print(count_ways(n, m))
+    dp = [[0] * M for _ in range(N)]
+    dp[0][0] = 1
+
+    for i in range(N):
+        for j in range(M):
+            if i + 1 < N and j + 2 < M:
+                dp[i+1][j+2] += dp[i][j]
+            if i + 2 < N and j + 1 < M:
+                dp[i+2][j+1] += dp[i][j]
+
+    result = dp[N-1][M-1]
+    print(result)
 ```
 
 ![alt](imgs/1.png)
@@ -67,29 +68,22 @@ if __name__ == '__main__':
 
 **Код программы**
 ```python
-import heapq
 
-def calculate_median_sum(size, elements):
-    left_heap = []
-    right_heap = []
+with open('input.txt', 'r') as file:
+    n = int(file.readline())
+    sequence = list(map(int, file.readline().split()))
     medians = []
 
-    for i in range(size):
-        if not left_heap or elements[i] < -left_heap[0]:
-            heapq.heappush(left_heap, -elements[i])
+    for i in range(n):
+        sequence[:i+1] = sorted(sequence[:i+1])
+        if (i + 1) % 2 == 1:
+            median = sequence[(i + 1) // 2]
         else:
-            heapq.heappush(right_heap, elements[i])
-        if len(left_heap) > len(right_heap) + 1:
-            heapq.heappush(right_heap, -heapq.heappop(left_heap))
-        elif len(right_heap) > len(left_heap):
-            heapq.heappush(left_heap, -heapq.heappop(right_heap))
-        medians.append(-left_heap[0])
-    return sum(medians)
+            median = sequence[i // 2]
+        medians.append(median)
 
-if __name__ == '__main__':
-    size = int(input())
-    elements = list(map(int, input().split()))
-    print(calculate_median_sum(size, elements))
+    total_sum = sum(medians)
+    print(total_sum)
 ```
 
 ![alt](imgs/2.png)
@@ -123,28 +117,29 @@ if __name__ == '__main__':
 
 **Код программы**
 ```python
-def generate_histogram(input_text):
-    character_count = {}
-    for char in input_text:
-        if char not in (' ', '\n'):
-            character_count[char] = character_count.get(char, 0) + 1
-    max_count = max(character_count.values())
-    histogram = []
-    for i in range(max_count, 0, -1):
-        row = ''
-        for char in sorted(character_count.keys()):
-            if character_count[char] >= i:
-                row += '#'
-            else:
-                row += ' '
-        histogram.append(row)
-    histogram.append(''.join(sorted(character_count.keys())))
-    return '\n'.join(histogram)
+with open('input.txt', 'r') as file:
+    text = file.read()
+    char_count = {}
+    for char in text:
+        if char not in char_count and char != ' ' and char != '\n':
+            char_count[char] = 1
+        elif char != ' ' and char != '\n':
+            char_count[char] += 1
 
-if __name__ == '__main__':
-    with open('Bond_Sem761.txt', 'r') as file:
-        input_text = file.read()
-    print(generate_histogram(input_text))
+    sorted_chars = sorted(char_count.keys())
+    max_count = max(char_count.values())
+
+    for i in range(max_count, 0, -1):
+        line = ''
+        for char in sorted_chars:
+            if char_count.get(char, 0) >= i:
+                line += '#'
+            else:
+                line += ' '
+        print(line)
+
+    symbols_line = ''.join(sorted_chars)
+    print(symbols_line)
 ```
 
 ![alt](imgs/3.png)
