@@ -42,8 +42,6 @@ with open('input.txt', 'r') as file:
     print(result)
 ```
 
-![alt](imgs/1.png)
-
 ------------
 
 ### Task 2 🐍
@@ -86,7 +84,7 @@ with open('input.txt', 'r') as file:
     print(total_sum)
 ```
 
-![alt](imgs/2.png)
+
 
 ------------
 
@@ -142,5 +140,5 @@ with open('input.txt', 'r') as file:
     print(symbols_line)
 ```
 
-![alt](imgs/3.png)
+
 
