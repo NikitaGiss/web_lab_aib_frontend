@@ -91,4 +91,4 @@ p {
 
 ### Вывод задачи:
 
-![alt](imgs/go.png)
+![alt](imgs/album.png)
